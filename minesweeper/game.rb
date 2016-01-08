@@ -5,7 +5,7 @@ class Game
   end
 
   def play
-
+    current_guess = player.prompt
 
   end
 
