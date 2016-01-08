@@ -1,6 +1,6 @@
 class Board
 
-
+  attr_reader :grid
 
   def initialize(size =  9)
     @size = size
@@ -13,8 +13,8 @@ class Board
   def seed_bombs(bomb_count)
 
     while bomb_count > 0
-      x_cord = (0..(size - 1)).to_a.sample # 0
-      y_cord = (0..(size - 1)).to_a.sample # 0
+      x_cord = (0..(@size - 1)).to_a.sample # 0
+      y_cord = (0..(@size - 1)).to_a.sample # 0
 
       if @grid[y_cord][x_cord].nil?
         @grid[y_cord][x_cord] = :X
