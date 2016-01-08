@@ -2,16 +2,16 @@ require_relative 'tile.rb'
 
 class Board
 
-  MOVES = [
-    [0,1],
-    [0,-1],
-    [1,0],
-    [1,1],
-    [1,-1],
-    [-1,0],
-    [-1,1],
-    [-1,-1]
-  ]
+    MOVES = [
+      [0,1],
+      [0,-1],
+      [1,0],
+      [1,1],
+      [1,-1],
+      [-1,0],
+      [-1,1],
+      [-1,-1]
+    ]
 
   attr_reader :grid
 
@@ -39,34 +39,37 @@ class Board
   end
 
   def set_neutral_tiles
-    @grid.each_with_index do |row, x_coord|
-      row.each_with_index do |tile, y_coord|
-        if @grid[y_coord][x_coord].value == :X
-          increment_tile_value(y_coord, x_coord)
+      @grid.each_with_index do |row, x_coord|
+        row.each_with_index do |tile, y_coord|
+          if @grid[y_coord][x_coord].value == :X
+            increment_tile_value(y_coord, x_coord)
+          end
         end
       end
-    end
   end
 
   def increment_tile_value(y_coord, x_coord)
+    current_tile = @grid[y_coord][x_coord]
     MOVES.each do |x_adder, y_adder|
-      current_tile = @grid[y_coord + x_adder][x_coord + y_adder]
+      current_tile = @grid[y_coord + x_adder][x_coord + y_adder] if valid_move?(y_coord+x_adder, x_coord + y_adder)
 
-      if valid_move?(y_coord+x_adder, x_coord + y_adder) && current_tile.value != :X
-        current_tile.value += 1
+      if (!current_tile.nil? && current_tile.value != :X )
+          if valid_move?(y_coord+x_adder, x_coord + y_adder)
+          current_tile.value += 1
+          end
       end
     end
+
+
   end
 
-  def valid_move?(x,y)
-    return false if x < 0 || x >= @size
-    return false if y < 0 || y >= @size
-    true
-  end
+    def valid_move?(x,y)
+      return false if x < 0 || x >= @size
+      return false if y < 0 || y >= @size
+      true
+    end
 
-  def render
-    
-  end
+
 
   # def bfs(target = nil, &prc)
   #   raise "Need a proc or target" if [target, prc].none?
