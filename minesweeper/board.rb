@@ -16,9 +16,12 @@ class Board
   attr_reader :grid
 
   def initialize(size = 9)
+    prng = Random.new
+
     @size = size
     @grid = Array.new(size){Array.new(size){Tile.new}}
-    bomb_count = (2..(size*size / 2)).to_a.sample
+    bomb_count = prng.rand(3..(size**2)/2)
+
     seed_bombs(bomb_count)
     set_neutral_tiles
   end
@@ -79,8 +82,8 @@ class Board
         p "grid value is zero"
         @grid[y][x].revealed = true
         MOVES.each do |x_adder, y_adder|
-
-          reveal(y + x_adder, x + y_adder) if valid_move?(y + x_adder, x + y_adder) && @grid[y + x_adder][x + y_adder].revealed == false
+          # next if @grid[y][x].revealed = true
+            reveal(x + x_adder, y + y_adder) if valid_move?(y + x_adder, x + y_adder) && @grid[y + x_adder][x + y_adder].revealed == false
         end
 
       #if its a zero number, reveal that tile AND call reveal on all nearby zero numbers <<<<
@@ -88,6 +91,12 @@ class Board
 
       end
 
+    end
+
+    def render
+      @grid.each do |row|
+        p row.map{|tile| tile.revealed ? tile.value : "*"}
+      end
     end
 
   # def bfs(target = nil, &prc)
@@ -105,14 +114,18 @@ class Board
   #   nil
   # end
 
-  def []()
-  end
-
-  # board = Board.new
-  # board[1, 2] == board.[](1, 2)
-
-  def []=(pos)
-  end
+  # def [](pos)
+  #   x,y = pos
+  #   @grid[x][y]
+  # end
+  #
+  # # board = Board.new
+  # # board[1, 2] == board.[](1, 2)
+  #
+  # def []=(pos, mark)
+  #   x,y = pos
+  #   @grid[x][y] = mark
+  # end
 
 
 end
