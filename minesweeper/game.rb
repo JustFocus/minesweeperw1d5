@@ -22,7 +22,7 @@ class Game
 
     until won?(chosen_tile_value)
 
-      #BFS
+      @board.reveal(x,y) #FIX THIS << PARAM
 
 
       chosen_tile_value = choose_tile #=> 3, 2, 1, 0

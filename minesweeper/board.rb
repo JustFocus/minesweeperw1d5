@@ -69,7 +69,26 @@ class Board
       true
     end
 
+    def reveal(x,y)
+      #if chosen tile is bomb lose, already implmented :]
+      #if its a non-zero number, reveal ONLY that tile :]
+      if @grid[y][x].value != 0
+        p "grid value is NOT zero"
+        @grid[y][x].revealed = true
+      else
+        p "grid value is zero"
+        @grid[y][x].revealed = true
+        MOVES.each do |x_adder, y_adder|
 
+          reveal(y + x_adder, x + y_adder) if valid_move?(y + x_adder, x + y_adder) && @grid[y + x_adder][x + y_adder].revealed == false
+        end
+
+      #if its a zero number, reveal that tile AND call reveal on all nearby zero numbers <<<<
+      #  until no zero number found
+
+      end
+
+    end
 
   # def bfs(target = nil, &prc)
   #   raise "Need a proc or target" if [target, prc].none?
@@ -85,5 +104,15 @@ class Board
   #
   #   nil
   # end
+
+  def []()
+  end
+
+  # board = Board.new
+  # board[1, 2] == board.[](1, 2)
+
+  def []=(pos)
+  end
+
 
 end
